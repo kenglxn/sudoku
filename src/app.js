@@ -5,7 +5,7 @@ define(function() {
     };
 
     App.prototype.render = function() {
-        this.el.html('require.js up and running');
+        // this.el.html('require.js up and running');
     };
 
     return App;
