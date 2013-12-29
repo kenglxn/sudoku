@@ -4,8 +4,8 @@ define(function() {
         this.el = el;
     };
 
-    App.prototype.render = function() {
-        // this.el.html('require.js up and running');
+    App.prototype.initBoard = function() {
+        this.el.html('BOARD');
     };
 
     return App;

@@ -13,5 +13,5 @@ requirejs.config({
 
 define(['app', 'jquery'], function (App, $) {
     var app = new App($('body'));
-    app.render();
+    //app.initBoard();
 });

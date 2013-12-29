@@ -1,21 +1,24 @@
 define(['app', 'jquery', 'underscore'], function(App, $, _) {
 
-    describe('just checking', function() {
+    describe('App', function() {
 
-        it('works for app', function() {
+        it('should be defined', function() {
+            expect(App).toBeDefined();
+        });
+
+        it('should be constructed by passing an element', function() {
+            var app = new App($('<div></div>'));
+            
+            expect(app).toBeDefined();
+        });
+
+        it('should initialize sudoku board', function() {
             var el = $('<div></div>');
-
             var app = new App(el);
-            app.render();
+            app.initBoard();
 
-            expect(el.text()).toEqual('require.js up and running');
+            expect(el.text()).toEqual('BOARD');
         });
-
-        it('works for underscore', function() {
-            // just checking that _ works
-            expect(_.size([1,2,3])).toEqual(3);
-        });
-
     });
 
 });
