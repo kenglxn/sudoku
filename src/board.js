@@ -1,39 +1,48 @@
 define(['underscore'], function(_) {
 
     var grid;
-    
+
     var Board = function() {
-        grid = [];
-        for(var x=0; x<9; x++) {
-            grid[x] = [];
-            for(var y=0; y<9; y++) {
-                grid[x][y] = '' + x + ',' + y;
-            }
-        }
+        grid = matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
     };
+
+    var matrix = function(xRange, yRange) {
+        var matrix = [];
+        for(x in xRange) {
+            matrix[x] = [];
+            for(y in yRange) {
+                matrix[x][y] = '' + x + ',' + y;
+            }
+        }; 
+        return matrix;  
+    };    
 
     Board.prototype.cell = function(x, y) {
         return grid[x][y];
     };
 
     Board.prototype.ySiblings = function(x, y) {
-        var ySibs = grid[x].slice(0);
-        ySibs.splice(y, 1);
-        return ySibs;
+        return grid[x];
     };
 
     Board.prototype.xSiblings = function(x, y) {
         var xSibs = [];
         for(var i = 0; i < 9; i++) {
-            if(i != x) {
-                xSibs.push(grid[i][y]);   
-            }
+            xSibs.push(grid[i][y]);   
         }
         return xSibs;
     };    
 
     Board.prototype.subgridSiblings = function(x, y) {
-        return [];
+        _.each([[0,1,2],[3,4,5],[6,7,8]], function(range) {
+            if(_.contains(range, x)) {
+                xRange = range;
+            }
+            if(_.contains(range, y)) {
+                yRange = range;
+            }
+        });
+        return _.flatten(matrix(xRange, yRange));
     };
 
     Board.prototype.linkedCells = function(x, y) {

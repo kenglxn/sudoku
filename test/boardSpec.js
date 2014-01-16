@@ -20,42 +20,39 @@ define(['board'], function(Board) {
         it('should find ySiblings for a given coordinate', function() {
             board = new Board();
             var ySibs = board.ySiblings(0, 0);
-            expect(ySibs).not.toContain('0,0')
-            expect(ySibs.length).toBe(8);
+            expect(ySibs.length).toBe(9);
             expect(ySibs).toEqual([
-                '0,1','0,2','0,3','0,4','0,5','0,6','0,7','0,8'
+                '0,0','0,1','0,2','0,3','0,4','0,5','0,6','0,7','0,8'
             ]);
             ySibs = board.ySiblings(3, 3);
-            expect(ySibs).not.toContain('3,3')
-            expect(ySibs.length).toBe(8);
+            expect(ySibs.length).toBe(9);
             expect(ySibs).toEqual([
-                '3,0','3,1','3,2','3,4','3,5','3,6','3,7','3,8'
+                '3,0','3,1','3,2','3,3','3,4','3,5','3,6','3,7','3,8'
             ]);
         });
 
         it('should find xSiblings for a given coordinate', function() {
             board = new Board();
             var xSibs = board.xSiblings(0, 0);
-            expect(xSibs).not.toContain('0,0')
-            expect(xSibs.length).toBe(8);
+            expect(xSibs.length).toBe(9);
             expect(xSibs).toEqual([
-                '1,0','2,0','3,0','4,0','5,0','6,0','7,0','8,0'
+                '0,0','1,0','2,0','3,0','4,0','5,0','6,0','7,0','8,0'
             ]);
             xSibs = board.xSiblings(3, 3);
-            expect(xSibs).not.toContain('3,3')
-            expect(xSibs.length).toBe(8);
+            expect(xSibs.length).toBe(9);
             expect(xSibs).toEqual([
-                '0,3','1,3','2,3','4,3','5,3','6,3','7,3','8,3'
+                '0,3','1,3','2,3','3,3','4,3','5,3','6,3','7,3','8,3'
             ]);
         });
 
-        xit('should find subgridSiblings for a given coordinate', function(){
+        it('should find subgridSiblings for a given coordinate', function(){
             board = new Board();
             var subSibs = board.subgridSiblings(0, 0);
-            expect(subSibs).not.toContain('0,0')
-            expect(subSibs.length).toBe(4);
-            expect(xSibs).toEqual([
-                '1,1','1,2','2,1','2,2'
+            expect(subSibs.length).toBe(9);
+            expect(subSibs).toEqual([
+                '0,0', '0,1','0,2',
+                '1,0','1,1','1,2',
+                '2,0','2,1','2,2'
             ]);
         });
 
