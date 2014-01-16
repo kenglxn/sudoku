@@ -69,6 +69,12 @@ define(['board'], function(Board) {
             ]);
         });
 
+        it('should preserve values set on cells', function () {
+            var b = new Board();
+            b.cell(5,5).value = 9;
+            expect(b.cell(5,5).value).toBe(9);
+        });
+
     });
 
 });
