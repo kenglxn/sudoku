@@ -1,21 +1,23 @@
 define(['underscore'], function(_) {
 
-    var grid;
 
     /** private scope **/
 
-    var cell = function(x, y){
-        return '' + x + ',' + y;
+    var grid;
+
+    var newCell = function(x, y){
+        return {x: x,y:y,val:null};
     };
 
     var matrix = function(xRange, yRange) {
         var matrix = [];
-        for(x in xRange) {
+        _.each(xRange, function(x) {
             matrix[x] = [];
-            for(y in yRange) {
-                matrix[x][y] = cell(x, y);
-            }
-        }; 
+            _.each(yRange, function(y) {
+                var cell = (_.isArray(grid) && _.isArray(grid[x])) ? grid[x][y] : newCell(x, y);
+                matrix[x][y] = cell;
+            });
+        }); 
         return matrix;  
     };    
 
