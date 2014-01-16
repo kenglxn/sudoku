@@ -1,7 +1,7 @@
 define(['underscore'], function(_) {
 
 
-    /** private scope **/
+    /** privates **/
 
     var grid;
 
@@ -21,7 +21,7 @@ define(['underscore'], function(_) {
         return matrix;  
     };    
 
-    /** public scope **/
+    /** publics **/
 
     var Board = function() {
         grid = matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);

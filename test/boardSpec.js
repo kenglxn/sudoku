@@ -56,6 +56,13 @@ define(['board'], function(Board) {
                 b.cell(1,0),b.cell(1,1),b.cell(1,2),
                 b.cell(2,0),b.cell(2,1),b.cell(2,2)
             ]);
+            var subSibs = b.subgridSiblings(3, 3);
+            expect(subSibs.length).toBe(9);
+            expect(subSibs).toEqual([
+                b.cell(3,3), b.cell(3,4),b.cell(3,5),
+                b.cell(4,3),b.cell(4,4),b.cell(4,5),
+                b.cell(5,3),b.cell(5,4),b.cell(5,5)
+            ]);
         });
 
         it('should return all related cells for a coordinate', function () {
