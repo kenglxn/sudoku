@@ -2,9 +2,7 @@ define(['underscore'], function(_) {
 
     var grid;
 
-    var Board = function() {
-        grid = matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
-    };
+    /** private scope **/
 
     var cell = function(x, y){
         return '' + x + ',' + y;
@@ -20,6 +18,12 @@ define(['underscore'], function(_) {
         }; 
         return matrix;  
     };    
+
+    /** public scope **/
+
+    var Board = function() {
+        grid = matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
+    };
 
     Board.prototype.cell = function(x, y) {
         return grid[x][y];
@@ -46,13 +50,14 @@ define(['underscore'], function(_) {
                 yRange = range;
             }
         });
-        return _.flatten(matrix(xRange, yRange));
+        return _.flatten(matrix(xRange, yRange)); 
     };
 
     Board.prototype.linkedCells = function(x, y) {
-        var ySib = ySiblings(x, y);
-        var xSib = xSiblings[x, y];
-        return  xSib.concat(ySib);
+        var ySib = this.ySiblings(x, y);
+        var xSib = this.xSiblings(x, y);
+        var subSib = this.subgridSiblings(x, y);
+        return  _.union(xSib, ySib, subSib);
     };
 
     return Board;

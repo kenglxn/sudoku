@@ -7,7 +7,7 @@ define(['board'], function(Board) {
         });
 
         it('should return cell object for given coordinate', function() {
-            board = new Board();
+            var board = new Board();
             for (var x = 0; x < 9; x++) {
                 for (var y = 0; y < 9; y++) {
                     var cell = board.cell(x,y);
@@ -18,7 +18,7 @@ define(['board'], function(Board) {
         });
 
         it('should find ySiblings for a given coordinate', function() {
-            board = new Board();
+            var board = new Board();
             var ySibs = board.ySiblings(0, 0);
             expect(ySibs.length).toBe(9);
             expect(ySibs).toEqual([
@@ -32,7 +32,7 @@ define(['board'], function(Board) {
         });
 
         it('should find xSiblings for a given coordinate', function() {
-            board = new Board();
+            var board = new Board();
             var xSibs = board.xSiblings(0, 0);
             expect(xSibs.length).toBe(9);
             expect(xSibs).toEqual([
@@ -46,7 +46,7 @@ define(['board'], function(Board) {
         });
 
         it('should find subgridSiblings for a given coordinate', function(){
-            board = new Board();
+            var board = new Board();
             var subSibs = board.subgridSiblings(0, 0);
             expect(subSibs.length).toBe(9);
             expect(subSibs).toEqual([
@@ -56,14 +56,13 @@ define(['board'], function(Board) {
             ]);
         });
 
-        xit('should return all related cells for a coordinate', function () {
-            board = new Board();
-            var linkedCells = board.linkedCells(0,0);
-            expect(linkedCells).not.toContain('0,0')
+        it('should return all related cells for a coordinate', function () {
+            var board = new Board();
+            var linkedCells = board.linkedCells(0, 0);
             expect(linkedCells.length).toBe(21);
-            expect(linkedCells).toBe([
+            expect(linkedCells).toEqual([
+                '0,0','1,0','2,0','3,0','4,0','5,0','6,0','7,0','8,0',
                 '0,1','0,2','0,3','0,4','0,5','0,6','0,7','0,8',
-                '1,0','2,0','3,0','4,0','5,0','6,0','7,0','8,0',
                 '1,1','1,2','2,1','2,2'
             ]);
         });
