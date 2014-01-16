@@ -6,12 +6,16 @@ define(['underscore'], function(_) {
         grid = matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
     };
 
+    var cell = function(x, y){
+        return '' + x + ',' + y;
+    };
+
     var matrix = function(xRange, yRange) {
         var matrix = [];
         for(x in xRange) {
             matrix[x] = [];
             for(y in yRange) {
-                matrix[x][y] = '' + x + ',' + y;
+                matrix[x][y] = cell(x, y);
             }
         }; 
         return matrix;  
