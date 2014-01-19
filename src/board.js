@@ -31,6 +31,10 @@ define(['underscore'], function(_) {
         return grid[x][y];
     };
 
+    Board.prototype.cells = function() {
+        return _.flatten(grid);
+    };
+
     Board.prototype.ySiblings = function(x, y) {
         return grid[x];
     };

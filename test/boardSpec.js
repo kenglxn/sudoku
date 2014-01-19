@@ -82,6 +82,15 @@ define(['board'], function(Board) {
             expect(b.cell(5,5).value).toBe(9);
         });
 
+        it('should return all cells in order as a flat array', function() {
+            var b = new Board();
+            var cells = b.cells();
+            expect(cells.length).toBe(81);
+            expect(cells[0]).toBe(b.cell(0,0));
+            expect(cells[40]).toBe(b.cell(4,4));
+            expect(cells[80]).toBe(b.cell(8,8));
+        });
+
     });
 
 });
