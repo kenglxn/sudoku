@@ -1,10 +1,11 @@
 define(['underscore'], function(_) {
 
     var Board = function() {
-        this.grid = matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8], this);
+        this.grid = this.matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
     };
     
-    var newCell = function(x, y, ctx){
+    Board.prototype.newCell = function(x, y){
+        var that = this;
         return (function (){
             var val = null;
             var possibleValues = [1,2,3,4,5,6,7,8,9];
@@ -16,7 +17,7 @@ define(['underscore'], function(_) {
                         if(!_.contains(possibleValues, newVal) ) {
                             throw 'illegal value, not in possibleValues';
                         }
-                        if(_.contains(_.map(ctx.linkedCells(x, y), function(cell) {cell.val()}), newVal)) {
+                        if(_.contains(_.map(that.linkedCells(x, y), function(cell) {cell.val()}), newVal)) {
                             throw 'illegal value, exists in linked cell'
                         }
                         val = newVal;
@@ -34,12 +35,12 @@ define(['underscore'], function(_) {
         }());
     };
 
-    var matrix = function(xRange, yRange, ctx) {
-        var matrix = [];
+    Board.prototype.matrix = function(xRange, yRange) {
+        var matrix = [], that = this;
         _.each(xRange, function(x) {
             matrix[x] = [];
             _.each(yRange, function(y) {
-                var cell = (_.isArray(ctx.grid) && _.isArray(ctx.grid[x])) ? ctx.grid[x][y] : newCell(x, y, ctx);
+                var cell = (_.isArray(that.grid) && _.isArray(that.grid[x])) ? that.grid[x][y] : that.newCell(x, y);
                 matrix[x][y] = cell;
             });
         }); 
@@ -75,7 +76,7 @@ define(['underscore'], function(_) {
                 yRange = range;
             }
         });
-        return _.without(_.flatten(matrix(xRange, yRange, this)), this.cell(x, y)); 
+        return _.without(_.flatten(this.matrix(xRange, yRange)), this.cell(x, y)); 
     };
 
     Board.prototype.linkedCells = function(x, y) {
