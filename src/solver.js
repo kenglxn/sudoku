@@ -1,37 +1,55 @@
 define(['underscore'], function(_) {
     var board;
-
-    var Solver = function() {};
-
-    var unsolvedCells = function (board) {
-        return _.filter(board.cells(), function(cell){ return cell.val == null; });
+    var Solver = function(b) {
+        board = b;
     };
 
-    Solver.prototype.solve = function (board) {
+    Solver.prototype.unsolvedCells = function () {
+        return _.filter(board.cells(), function(cell){ return cell.val() == null; });
+    };
+
+    Solver.prototype.solve = function (inRecursion) {
         var valuesSet = 0;
-        console.log('starting iteration');
-        _.each(unsolvedCells(board), function(cell) {
-            if(!cell.possibleValues) {
-                cell.possibleValues = [1,2,3,4,5,6,7,8,9];
+        _.each(this.unsolvedCells(), function(cell) {
+            var possibleValues = _.reduce(board.linkedCells(cell.x, cell.y), function(memo, rc) { 
+                return _.without(memo, rc.val()) ;
+            }, cell.possibleValues());
+            if(possibleValues.length > 0) {
+                cell.possibleValues(possibleValues);
             }
-            var linkedCells = board.linkedCells(cell.x, cell.y);
-            var reduced = _.reduce(linkedCells, function(memo, cell) { 
-                console.log(memo, cell);
-                return _.without(memo, cell.val) 
-            }, cell.possibleValues);
-            cell.possibleValues = reduced;
-            if(reduced.length == 1) {
-                console.log('setting value', reduced);
-                cell.value = reduced[0];
+            if(cell.possibleValues().length == 1) {
+                cell.val(cell.possibleValues()[0]);
                 valuesSet++;
-            } else {
-                console.log('unable to reduce to single possible value.', reduced);
             }
         });
+        _.each(this.unsolvedCells(), function(cell) {
+            _.each(cell.possibleValues(), function(possibleValue) {
+                if(!cell.val()) {
+                    var isPossibleOnXSib = false, isPossibleOnYSib = false, isPossibleOnSubSib = false;
+                    _.each(board.xSiblings(cell.x, cell.y), function (xSib) {
+                        if(_.contains(xSib.possibleValues(), possibleValue)) {
+                            isPossibleOnXSib = true;
+                        }
+                    });
+                    _.each(board.ySiblings(cell.x, cell.y), function (ySib) {
+                        if(_.contains(ySib.possibleValues(), possibleValue)) {
+                            isPossibleOnYSib = true;
+                        }
+                    });
+                    _.each(board.subgridSiblings(cell.x, cell.y), function (subSib) {
+                        if(_.contains(subSib.possibleValues(), possibleValue)) {
+                            isPossibleOnSubSib = true;
+                        }
+                    });
+                    if(!isPossibleOnXSib || !isPossibleOnYSib || !isPossibleOnSubSib) {
+                        cell.val(possibleValue);
+                        valuesSet++;
+                    }
+                }
+            });
+        });
         if(valuesSet > 0) {
-            this.solve(board);
-        } else {
-            console.log('processed all cells without being able to determine a value, need to implement guess to solve this one');
+            this.solve(true);
         }
         return board;
     };

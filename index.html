@@ -32,7 +32,34 @@
   </head>
 
   <body>
-  <input type="file" accept="image/*;capture=camera">
+
+<script src="lib/ocrad.js"></script>
+                <script>
+                        function OCRImage(image){
+                                var canvas = document.createElement('canvas')
+                                canvas.width  = image.naturalWidth;
+                                canvas.height = image.naturalHeight;
+                                canvas.getContext('2d').drawImage(image, 0, 0)
+                                return OCRAD(canvas)
+                        }
+                        
+                        function OCRPath(url, callback){
+                                var image = new Image()
+                                image.src = url;
+                                image.onload = function(){ callback(OCRImage(image)) }
+                        }
+
+                        function OCRFile(file, callback){
+                                var reader = new FileReader();
+                                reader.onload = function(){ OCRPath(reader.result, callback); }
+                                reader.readAsDataURL(file)
+                        }
+
+                        function YO(file) {
+                            OCRFile(file, function(text){ console.log(text) })
+                        }
+                </script>
+  <input type="file" accept="image/*;capture=camera" onchange="YO(this.files[0])">
   <table cellspacing="0">
 
   	<tr>

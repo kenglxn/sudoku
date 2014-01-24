@@ -1,50 +1,69 @@
 define(['underscore'], function(_) {
 
-
-    /** privates **/
-
-    var grid;
-
-    var newCell = function(x, y){
-        return {x: x,y:y,val:null};
+    var Board = function() {
+        this.grid = matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8], this);
+    };
+    
+    var newCell = function(x, y, ctx){
+        return (function (){
+            var val = null;
+            var possibleValues = [1,2,3,4,5,6,7,8,9];
+            return {
+                x: x,
+                y:y,
+                val: function (newVal) {
+                    if(newVal) {
+                        if(!_.contains(possibleValues, newVal) ) {
+                            throw 'illegal value, not in possibleValues';
+                        }
+                        if(_.contains(_.map(ctx.linkedCells(x, y), function(cell) {cell.val()}), newVal)) {
+                            throw 'illegal value, exists in linked cell'
+                        }
+                        val = newVal;
+                        possibleValues = [];
+                    }
+                    return val;
+                },
+                possibleValues: function(newValues) { 
+                    if(newValues) {
+                        possibleValues = newValues;
+                    }
+                    return possibleValues; 
+                }
+            };
+        }());
     };
 
-    var matrix = function(xRange, yRange) {
+    var matrix = function(xRange, yRange, ctx) {
         var matrix = [];
         _.each(xRange, function(x) {
             matrix[x] = [];
             _.each(yRange, function(y) {
-                var cell = (_.isArray(grid) && _.isArray(grid[x])) ? grid[x][y] : newCell(x, y);
+                var cell = (_.isArray(ctx.grid) && _.isArray(ctx.grid[x])) ? ctx.grid[x][y] : newCell(x, y, ctx);
                 matrix[x][y] = cell;
             });
         }); 
         return matrix;  
     };    
 
-    /** publics **/
-
-    var Board = function() {
-        grid = matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
-    };
-
     Board.prototype.cell = function(x, y) {
-        return grid[x][y];
+        return this.grid[x][y];
     };
 
     Board.prototype.cells = function() {
-        return _.flatten(grid);
+        return _.flatten(this.grid);
     };
 
     Board.prototype.ySiblings = function(x, y) {
-        return grid[x];
+        return _.without(this.grid[x], this.cell(x, y));
     };
 
     Board.prototype.xSiblings = function(x, y) {
         var xSibs = [];
         for(var i = 0; i < 9; i++) {
-            xSibs.push(grid[i][y]);   
+            xSibs.push(this.grid[i][y]);   
         }
-        return xSibs;
+        return _.without(xSibs, this.cell(x, y));
     };    
 
     Board.prototype.subgridSiblings = function(x, y) {
@@ -56,7 +75,7 @@ define(['underscore'], function(_) {
                 yRange = range;
             }
         });
-        return _.flatten(matrix(xRange, yRange)); 
+        return _.without(_.flatten(matrix(xRange, yRange, this)), this.cell(x, y)); 
     };
 
     Board.prototype.linkedCells = function(x, y) {
@@ -64,6 +83,18 @@ define(['underscore'], function(_) {
         var xSib = this.xSiblings(x, y);
         var subSib = this.subgridSiblings(x, y);
         return  _.union(xSib, ySib, subSib);
+    };
+
+    Board.prototype.isValid = function() {
+        var that = this;
+        _.each(that.cells(), function (cell) {
+                var linkedCells = that.linkedCells(cell.x, cell.y);
+                var valueExistsInLinkedCell = _.contains(_.map(linkedCells, function(lc) {lc.val()}), cell.val());
+                if (valueExistsInLinkedCell) {
+                    return false;
+                }
+        });
+        return true;
     };
 
     return Board;
