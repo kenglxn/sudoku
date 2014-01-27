@@ -6,16 +6,19 @@ define(['imgman'], function (ImgMan) {
         });
 
         it("should load image", function () {
-            // var img = new Image();
-            // var loaded = false;
-            // img.onload = function(){
-            //     console.log('onload');
-            //     return true;
-            // };
-            // // img.src = 'test/sample.png';
-            // // waitsFor(img.onload);
-            // console.log(img, img)
-            // expect(img).toBeDefined();
+            var im = new ImgMan(), cb = jasmine.createSpy(), img;
+            runs(function(){
+                img = im.load('base/test/sample.png', cb);
+            });
+            waitsFor(function() {
+                return cb.callCount == 1;
+            });
+            runs(function() {
+                expect(cb).toHaveBeenCalled();
+                expect(img instanceof HTMLImageElement).toBeTruthy();
+                expect(img).toBeDefined();
+                expect(img.complete).toBeTruthy();
+            });
         });
     });
 });
