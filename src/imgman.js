@@ -11,5 +11,17 @@ define(['underscore'], function(_) {
         return img;
     };
 
+    ImgMan.prototype.read = function (imgUrl, timeout) {
+        var chars, loaded, timeout = timeout || new Date().getTime() + 2000;
+        var img = this.load(imgUrl, function() {
+            loaded = true;
+        });
+        while(!loaded && new Date().getTime() < timeout) {}
+        // create canvas with image
+        // iterate through all 81 sections and pass the section to OCRAD
+        // add result of OCRAD to chars []
+        return chars;
+    };
+
     return ImgMan;
 });
