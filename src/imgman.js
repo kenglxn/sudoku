@@ -17,6 +17,7 @@ define(['underscore'], function(_) {
             loaded = true;
         });
         while(!loaded && new Date().getTime() < timeout) {}
+        // ctx.clearRect(0, 0, canvas.width, canvas.height); //clear canvas each iteration
         // create canvas with image
         // iterate through all 81 sections and pass the section to OCRAD
         // add result of OCRAD to chars []

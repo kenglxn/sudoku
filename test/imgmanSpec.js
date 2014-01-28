@@ -23,7 +23,7 @@ define(['imgman'], function (ImgMan) {
 
         it("should timeout if image not loaded after some time", function () {
             jasmine.Clock.useMock();
-            var im = new ImgMan(), chars, timeout = 100;
+            var im = new ImgMan(), chars = null, timeout = 100;
             runs(function(){
                 chars = im.read('someNonExistentImage.png', timeout);
             });  
