@@ -12,11 +12,15 @@ requirejs.config({
     paths: {
         'jquery': '../lib/jquery',
         'underscore': '../lib/underscore',
+        'ocrad': '../lib/ocrad'
     },
 
     shim: {
         'underscore': {
             exports: '_'
+        },
+        'ocrad': {
+            exports: 'OCRAD'
         }
     },
 
