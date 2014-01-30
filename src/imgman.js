@@ -13,11 +13,9 @@ define(['ocrad'], function(OCRAD) {
     ImgMan.prototype.read = function (imgUrl, cb) {
         var ctx,
              canvas,
+             tiles = 9,
              tileWidth,
-             tileHeight,
-             count = 0,
-             chars = [], 
-             tiles = 9;
+             tileHeight;
         this.load(imgUrl, function(img) {
             canvas = document.createElement('canvas');
             document.body.appendChild(canvas);
@@ -33,10 +31,12 @@ define(['ocrad'], function(OCRAD) {
                     // ctx.clearRect(0, 0, img.width, img.height);
                     ctx.drawImage(img, xOffset, yOffset, tileWidth, tileHeight, -(tileWidth / 9), -(tileHeight / 9), tileWidth, tileHeight);
                     var txt = OCRAD(canvas).replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1');
-                    chars[count++] = txt;
+                    if(txt.length > 0) {
+                        cb(x, y, txt);
+
+                    }
                 }
             }
-            cb(chars);
         });
     };
 
