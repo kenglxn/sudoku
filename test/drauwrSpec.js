@@ -3,5 +3,7 @@ define(['drauwr'], function (Drauwr) {
         it('should be defined', function () {
             expect(Drauwr).toBeDefined();      
         });
+
+        it('should ...', function () {});
     });
 });   
