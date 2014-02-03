@@ -14,11 +14,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/test-main.js',
+      'test/karma-main.js',
       {pattern: 'lib/**/*.js', included: false},
       {pattern: 'src/**/*.js', included: false},
-      {pattern: 'test/**/*Spec.js', included: false},
-      {pattern: 'test/*.png',watched: false, served: true, included: false}
+      {pattern: 'test/spec/**/*Spec.js', included: false},
+      {pattern: 'test/resources/*.*',watched: false, served: true, included: false}
     ],
 
     // list of files to exclude

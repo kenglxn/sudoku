@@ -1,0 +1,12 @@
+{
+  "framework": "jasmine",
+  "src_files": [
+    "lib/**/*.js",
+    "src/**/*.js",
+    "spec/**/*.js"
+  ],
+  "test_page": "spec/tests.html",
+  "launch_in_dev": [
+    "Chrome"
+  ]
+}
