@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Jasmine Spec Runner</title>
+ 
+    <link rel="shortcut icon" type="image/png" href="lib/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="lib/jasmine.css">
+</head>
+ 
+<body>
+    <!-- sandbox that tests can use for things that require the DOM  -->
+    <div id="sandbox"></div>
+ 
+    <script src="lib/jasmine.js"></script>
+    <!-- Pull in Testem helper when using Testem -->
+    <script src="/testem.js"></script>
+    <script src="lib/jasmine-html.js"></script>
+
+    <!-- Using RequireJS. Specs and config are done in spec-runner.js -->
+    <script type="text/javascript" src="../src/lib/require.js" data-main="runner"></script>
+    <script>
+        require([], function(){
+            var jasmineEnv = jasmine.getEnv();
+            var htmlReporter = new jasmine.HtmlReporter();
+         
+            jasmineEnv.addReporter(htmlReporter);
+         
+            // Add links to the spec files here
+            jasmineEnv.specFilter = function(spec) {
+                return htmlReporter.specFilter(spec);
+            };    
+            var specs = [];
+            {{#serve_files}}
+            if('{{src}}'.search(/spec\.js/i) > -1) {
+                specs.push('{{src}}'.replace('test/', ''));
+            }
+            {{/serve_files}}
+            require(specs, function(){
+                jasmineEnv.execute();
+            });
+        });
+    </script>
+</body>
+</html>

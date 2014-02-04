@@ -28,12 +28,11 @@ define(['ocrad'], function(OCRAD) {
                 for(var y = 0; y < tiles; y++) {
                     var xOffset = x * tileWidth;
                     var yOffset = y * tileHeight;
-                    // ctx.clearRect(0, 0, img.width, img.height);
                     ctx.drawImage(img, xOffset, yOffset, tileWidth, tileHeight, -(tileWidth / 9), -(tileHeight / 9), tileWidth, tileHeight);
                     var txt = OCRAD(canvas).replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1');
                     if(txt.length > 0) {
+                        ctx.clearRect(0, 0, img.width, img.height);
                         cb(x, y, txt);
-
                     }
                 }
             }

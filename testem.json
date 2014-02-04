@@ -3,9 +3,11 @@
   "src_files": [
     "lib/**/*.js",
     "src/**/*.js",
-    "spec/**/*.js"
+    "test/lib/**/*.js",
+    "test/spec/**/*.js",
+    "test/resources/*.*"
   ],
-  "test_page": "spec/tests.html",
+  "test_page": "test/runner.mustache",
   "launch_in_dev": [
     "Chrome"
   ]

@@ -8,7 +8,7 @@ define(['imgman'], function (ImgMan) {
         it("should load image", function () {
             var im = new ImgMan(), cb = jasmine.createSpy(), img;
             runs(function(){
-                im.load('base/test/resources/sample.png', cb);
+                im.load('resources/sample.png', cb);
             });
             waitsFor(function() {
                 return cb.callCount == 1;
@@ -33,7 +33,7 @@ define(['imgman'], function (ImgMan) {
             });
             var im = new ImgMan(),cb = jasmine.createSpy(), chars;
             runs(function(){
-                im.read('base/test/resources/sample.png', cb);
+                im.read('resources/sample.png', cb);
             });
             waitsFor(function() {
                 return cb.callCount == 35;
