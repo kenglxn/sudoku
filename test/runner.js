@@ -8,9 +8,9 @@ require.config({
         underscore: "lib/underscore",
         backbone: "lib/backbone",
         ocrad: 'lib/ocrad',
+        imagediff: '../test/lib/imagediff',
         // Jasmine Testing: Folder Aliases
-        spec: "../test/spec",
-        helpers: "../test/helpers"
+        spec: "../test/spec"
     },
  
     shim: {

@@ -4,8 +4,7 @@
 // For original source and documentation visit:
 // http://www.github.com/HumbleSoftware/js-imagediff
 
-define([], function () {
-
+define(function () {
   var
     TYPE_ARRAY        = /\[object Array\]/i,
     TYPE_CANVAS       = /\[object (Canvas|HTMLCanvasElement)\]/i,
@@ -21,8 +20,7 @@ define([], function () {
 
   // Creation
   function getCanvas (width, height) {
-    var
-      canvas = document.createElement('canvas');
+    var canvas = document.createElement('canvas');
     if (width) canvas.width = width;
     if (height) canvas.height = height;
     return canvas;
@@ -306,19 +304,19 @@ define([], function () {
 
 
   // Image Output
-  function imageDataToPNG (imageData, outputFile, callback) {
+  // function imageDataToPNG (imageData, outputFile, callback) {
 
-    var
-      canvas = toCanvas(imageData),
-      base64Data,
-      decodedImage;
+  //   var
+  //     canvas = toCanvas(imageData),
+  //     base64Data,
+  //     decodedImage;
 
-    callback = callback || Function;
+  //   callback = callback || Function;
 
-    base64Data = canvas.toDataURL().replace(/^data:image\/\w+;base64,/,"");
-    decodedImage = new Buffer(base64Data, 'base64');
-    require('fs').writeFile(outputFile, decodedImage, callback);
-  }
+  //   base64Data = canvas.toDataURL().replace(/^data:image\/\w+;base64,/,"");
+  //   decodedImage = new Buffer(base64Data, 'base64');
+  //   require('fs').writeFile(outputFile, decodedImage, callback);
+  // }
 
 
   // Definition
@@ -354,10 +352,6 @@ define([], function () {
 
     jasmine : jasmine
   };
-
-  if (typeof module !== 'undefined') {
-    imagediff.imageDataToPNG = imageDataToPNG;
-  }
 
   return imagediff;
 });

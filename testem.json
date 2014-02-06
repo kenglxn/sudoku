@@ -1,10 +1,10 @@
 {
   "framework": "jasmine",
   "src_files": [
-    "lib/**/*.js",
-    "src/**/*.js",
-    "test/lib/**/*.js",
-    "test/spec/**/*.js",
+    "lib/*.js",
+    "src/*.js",
+    "test/lib/*.js",
+    "test/spec/*.js",
     "test/resources/*.*"
   ],
   "test_page": "test/runner.mustache",
