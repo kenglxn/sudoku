@@ -7,6 +7,8 @@ define([], function () {
 
     Drauwr.prototype.emptyBoard = function () {
         var ctx = this.canvas.getContext("2d"), w = this.canvas.width, h = this.canvas.height;
+        ctx.fillStyle = "rgb(255,255,255)";
+        ctx.fillRect (0, 0, w, h);
         for (var x = 0; x < 10; x++) {
             ctx.beginPath();
             ctx.lineWidth = x % 3 === 0 ? 3 : 1;
@@ -23,6 +25,16 @@ define([], function () {
             ctx.stroke();
         }
     };
+
+    Drauwr.prototype.write = function (val, x, y, fillStyle) {
+        var ctx = this.canvas.getContext("2d"), w = this.canvas.width, h = this.canvas.height;
+        ctx.font = "33px sans-serif";
+        ctx.fillStyle = fillStyle || 'black';
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(val, (w/9) * x + (w/9/2), (h/9) * y + (h/9/2));
+    };
+
     return Drauwr;
 });
 
