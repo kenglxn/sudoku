@@ -36,19 +36,6 @@ require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
         expect(canvas).toImageDiffEqual(img, 1); 
       });
     });  
-    it('should draw text into correct cell given coordinate and override fillstyle', function () {
-      var img = document.createElement('img');
-      runs(function () {
-        img.src = 'resources/7_at_2_2_green.png';
-        draw.emptyBoard();
-        draw.write(7, 2, 2, 'green');
-      });
-      waitsFor(function () {
-        return img.complete;
-      }, 'image not loaded.', 2000);
-      runs(function () {
-        expect(canvas).toImageDiffEqual(img, 1); 
-      });
     });  
   });
 });
