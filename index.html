@@ -6,7 +6,6 @@
     <script data-main="src/main.js" src="lib/require.js"></script>
   </head>
   <body>
-    <script src="lib/ocrad.js"></script>
     <script>
             function OCRImage(image){
                     var canvas = document.createElement('canvas')
@@ -32,6 +31,6 @@
                 OCRFile(file, function(text){ console.log(text) })
             }
     </script>
-    <input type="file" accept="image/*;capture=camera" onchange="YO(this.files[0])">
+    <input id="file" type="file" accept="image/*;capture=camera" onchange="YO(this.files[0])">
   </body>
 </html>

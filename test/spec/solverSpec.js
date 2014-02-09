@@ -2,7 +2,7 @@ define(['solver', 'board'], function (Solver, Board) {
 
     describe('Solver', function(){
         it('should solve board', function () {
-            var b = new Board();
+            var b = new Board(), cb = jasmine.createSpy();
             b.cell(1,0).val(1);
             b.cell(3,0).val(9);
             b.cell(4,0).val(5);
@@ -39,11 +39,14 @@ define(['solver', 'board'], function (Solver, Board) {
             b.cell(7,8).val(2);
 
             var s = new Solver(b);
-            var sb = s.solve();
+            var sb = s.solve(cb);
             
             expect(s.unsolvedCells().length).toBe(0);
             expect(sb.isValid()).toBe(true);
-            
+            expect(cb.callCount).toBe(55);
+            _.each(cb.calls, function(call) {
+                expect(call.args.length).toBe(3);
+            });
         });
     });
 });

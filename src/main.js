@@ -1,8 +1,12 @@
 requirejs.config({
+    baseUrl: "../",
+    urlArgs: 'cb=' + Math.random(),
     paths: {
-        'jquery': '../lib/jquery',
-        'underscore': '../lib/underscore',
-        'OCRAD': '../lib/ocrad'
+        jquery: "lib/jquery",
+        underscore: "lib/underscore",
+        backbone: "lib/backbone",
+        ocrad: 'lib/ocrad',
+        imagediff: '../test/lib/imagediff'
     },
 
     shim: {
@@ -15,7 +19,6 @@ requirejs.config({
     }
 });
 
-define(['app', 'jquery'], function (App, $) {
-    var app = new App($('body'));
-    //app.initBoard();
+define(['app'], function (App) {
+    new App().init();
 });

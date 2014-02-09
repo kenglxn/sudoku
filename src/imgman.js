@@ -18,7 +18,6 @@ define(['ocrad'], function(OCRAD) {
              tileHeight;
         this.load(imgUrl, function(img) {
             canvas = document.createElement('canvas');
-            document.body.appendChild(canvas);
             ctx = canvas.getContext('2d');
             tileWidth = img.width / tiles;
             tileHeight = img.height / tiles;

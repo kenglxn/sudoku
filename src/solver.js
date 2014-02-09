@@ -8,7 +8,7 @@ define(['underscore'], function(_) {
         return _.filter(board.cells(), function(cell){ return cell.val() == null; });
     };
 
-    Solver.prototype.solve = function (inRecursion) {
+    Solver.prototype.solve = function (cb) {
         var valuesSet = 0;
         _.each(this.unsolvedCells(), function(cell) {
             var possibleValues = _.reduce(board.linkedCells(cell.x, cell.y), function(memo, rc) { 
@@ -19,6 +19,7 @@ define(['underscore'], function(_) {
             }
             if(cell.possibleValues().length == 1) {
                 cell.val(cell.possibleValues()[0]);
+                cb(cell.possibleValues()[0], cell.x, cell.y);
                 valuesSet++;
             }
         });
@@ -43,13 +44,14 @@ define(['underscore'], function(_) {
                     });
                     if(!isPossibleOnXSib || !isPossibleOnYSib || !isPossibleOnSubSib) {
                         cell.val(possibleValue);
+                        cb(possibleValue, cell.x, cell.y);
                         valuesSet++;
                     }
                 }
             });
         });
         if(valuesSet > 0) {
-            this.solve(true);
+            this.solve(cb);
         }
         return board;
     };
