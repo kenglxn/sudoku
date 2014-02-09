@@ -19,28 +19,11 @@ require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
         return img.complete;
       }, 'image not loaded.', 2000);
       runs(function () {
-        expect(canvas).toImageDiffEqual(img); 
+        expect(canvas).toImageDiffEqual(img, 1); 
       });
     });
     it('should draw text into correct cell given coordinate', function () {
 
-    });
-      
-    // it('should convert be the same image', function () {
-    //   var a, b;
-    //   runs(function () {
-    //     a = document.createElement('img');
-    //     b = document.createElement('img');
-    //     a.src = 'resources/sample.png';
-    //     b.src = 'resources/superHardSample.png';
-    //   });
-    //   waitsFor(function () {
-    //     return a.complete && b.complete;
-    //   }, 'image not loaded.', 2000);
-    //   runs(function () {
-    //     expect(a).toImageDiffEqual(b); // imagediff expects Image, Canvas, CanvasRenderingContext2D or ImageData
-    //   });
-    // });
-
+    });  
   });
 });
