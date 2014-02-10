@@ -16,7 +16,7 @@ define(['jquery', 'drauwr', 'board', 'imgman'], function($, Drauwr, Board, ImgMa
     App.prototype.run = function(el) {
         this.draw.emptyBoard();
         this.board.reset();
-        this.imgMan.read(el.files[0]);
+        this.imgMan.read(el.files[0], this.cb);
     };
 
     App.prototype.cb = function(x, y, val){

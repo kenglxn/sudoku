@@ -52,10 +52,8 @@ define(['app', 'drauwr','board', 'imgman', 'jquery'], function(App, Drauwr, Boar
             app.run(fileElMock);
             expect(Drauwr.prototype.emptyBoard).toHaveBeenCalled();
             expect(Board.prototype.reset).toHaveBeenCalled();
-            expect(ImgMan.prototype.read).toHaveBeenCalled();
-            expect(ImgMan.prototype.read.calls[0].args[0]).toBe(fileElMock.files[0]);
+            expect(ImgMan.prototype.read).toHaveBeenCalledWith(fileElMock.files[0], App.prototype.cb);
             
-            //expect(ImgMan.prototype.read.calls[0].args[1]).toBe(fileElMock.files[0]);
             // read image into board and draw values
             // solve board
             // draw solved values in green

@@ -2,21 +2,31 @@ define(['ocrad'], function(OCRAD) {
     
     var ImgMan = function() {};
 
-    ImgMan.prototype.load = function (url, cb) {
-        var img = document.createElement('img');
-        img.onload = function () {
-            cb(this);
+    ImgMan.prototype.load = function (wat, cb) {
+        console.log('load', wat, cb.identity);
+        var imgman = this;
+        if(wat.constructor == File) {
+            var reader = new FileReader();
+            reader.onload = function(){ imgman.load(reader.result, cb); }
+            reader.readAsDataURL(wat)   
+        } else {
+            var img = document.createElement('img');
+            img.onload = function () {
+                console.log('onload', cb.identity);
+                cb(this);
+            }
+            img.src = wat;
+            console.log('set src');
         }
-        img.src = url;
     };
 
-    ImgMan.prototype.read = function (imgUrl, cb) {
+    ImgMan.prototype.read = function (wat, cb) {
         var ctx,
              canvas,
              tiles = 9,
              tileWidth,
              tileHeight;
-        this.load(imgUrl, function(img) {
+        this.load(wat, function(img) {
             canvas = document.createElement('canvas');
             ctx = canvas.getContext('2d');
             tileWidth = img.width / tiles;

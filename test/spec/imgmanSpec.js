@@ -23,6 +23,40 @@ define(['imgman'], function (ImgMan) {
             });
         });
 
+        it('should load image from file', function() {
+           var img,
+                 mockFile,
+                 im = new ImgMan(), 
+                 cb = jasmine.createSpy('cb'), 
+                 readAsDataURLSpy = jasmine.createSpy('readDataAsURL').andCallFake(function(file){
+                    this.result = file.name;
+                    this.onload();
+                 });
+            spyOn(window, "FileReader").andReturn({
+                readAsDataURL: readAsDataURLSpy
+            }),
+            mockFile = {
+                constructor: File,
+                name: 'resources/sample.png'
+            };
+
+            runs(function(){
+                im.load(mockFile, cb);
+            });
+            waitsFor(function() {
+                return cb.callCount == 1;
+            }, 5000);
+            runs(function() {
+                expect(readAsDataURLSpy).toHaveBeenCalledWith(mockFile);
+                expect(cb.callCount).toBe(1);
+                expect(cb.calls[0].args.length).toBe(1);
+                img = cb.calls[0].args[0];
+                expect(img).toBeDefined();
+                expect(img instanceof HTMLImageElement).toBeTruthy();
+                expect(img.complete).toBeTruthy();
+            }); 
+        });
+
         it("should get cell values from image", function () {
             this.addMatchers({
                 argsToBe: function(x, y, txt) {
