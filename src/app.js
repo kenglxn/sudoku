@@ -19,6 +19,11 @@ define(['jquery', 'drauwr', 'board', 'imgman'], function($, Drauwr, Board, ImgMa
         this.imgMan.read(el.files[0]);
     };
 
+    App.prototype.cb = function(x, y, val){
+        this.board.cell(x, y).val(val);
+        this.draw.write(x, y, val);
+    };
+
     return App;
 
 });

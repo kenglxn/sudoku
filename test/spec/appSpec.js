@@ -29,7 +29,20 @@ define(['app', 'drauwr','board', 'imgman', 'jquery'], function(App, Drauwr, Boar
 
         });
 
-       it('should initialize board from image and solve', function() {
+        it('should have callback that can be used to write values to board and draw them to canvas', function() {
+            var cellMock = {
+                val: jasmine.createSpy()
+            }, x = 1, y = 2, val = 3;
+            spyOn(Drauwr.prototype, 'write');
+            spyOn(Board.prototype, 'cell').andReturn(cellMock); 
+
+            app.cb(x, y, val);
+            expect(Board.prototype.cell).toHaveBeenCalledWith(x, y);
+            expect(cellMock.val).toHaveBeenCalledWith(val);
+            expect(Drauwr.prototype.write).toHaveBeenCalledWith(x, y, val);
+        });
+
+        it('should initialize board from image and solve', function() {
             spyOn(Drauwr.prototype, 'emptyBoard');
             spyOn(Board.prototype, 'reset');
             spyOn(ImgMan.prototype, 'read');
@@ -39,13 +52,14 @@ define(['app', 'drauwr','board', 'imgman', 'jquery'], function(App, Drauwr, Boar
             app.run(fileElMock);
             expect(Drauwr.prototype.emptyBoard).toHaveBeenCalled();
             expect(Board.prototype.reset).toHaveBeenCalled();
-            expect(ImgMan.prototype.read).toHaveBeenCalledWith('foo');
-            // read image into board
-            // draw read board values
+            expect(ImgMan.prototype.read).toHaveBeenCalled();
+            expect(ImgMan.prototype.read.calls[0].args[0]).toBe(fileElMock.files[0]);
+            
+            //expect(ImgMan.prototype.read.calls[0].args[1]).toBe(fileElMock.files[0]);
+            // read image into board and draw values
             // solve board
             // draw solved values in green
             
         });
     });
-
 });
