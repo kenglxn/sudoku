@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>SUDOKU</title>
-    <script data-main="src/main.js" src="lib/require.js"></script>
+    <script data-main="src/main.js" src="src/lib/require.js"></script>
   </head>
   <body>
     <script>
@@ -27,11 +27,14 @@
                     reader.readAsDataURL(file)
             }
 
-            function YO(file) {
+            function YO() {
+                //YO(this.files[0])
+                console.log(arguments)
                 OCRFile(file, function(text){ console.log(text) })
             }
+
     </script>
-    <input id="file" type="file" accept="image/*;capture=camera" onchange="YO(this.files[0])">
+    <input id="file" type="file" accept="image/*;capture=camera" style="width: 100%">
     <canvas id="canvas"></canvas>
   </body>
 </html>

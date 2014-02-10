@@ -1,12 +1,12 @@
 requirejs.config({
-    baseUrl: "../",
+    baseUrl: "src/",
     urlArgs: 'cb=' + Math.random(),
     paths: {
         jquery: "lib/jquery",
         underscore: "lib/underscore",
         backbone: "lib/backbone",
         ocrad: 'lib/ocrad',
-        imagediff: '../test/lib/imagediff'
+        imagediff: '../test/lib/imagediff' //TODO move to lib under src, not  test
     },
 
     shim: {
