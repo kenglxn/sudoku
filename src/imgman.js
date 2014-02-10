@@ -3,7 +3,6 @@ define(['ocrad'], function(OCRAD) {
     var ImgMan = function() {};
 
     ImgMan.prototype.load = function (wat, cb) {
-        console.log('load', wat, cb.identity);
         var imgman = this;
         if(wat.constructor == File) {
             var reader = new FileReader();
@@ -12,11 +11,9 @@ define(['ocrad'], function(OCRAD) {
         } else {
             var img = document.createElement('img');
             img.onload = function () {
-                console.log('onload', cb.identity);
                 cb(this);
             }
             img.src = wat;
-            console.log('set src');
         }
     };
 
@@ -41,7 +38,7 @@ define(['ocrad'], function(OCRAD) {
                     var txt = OCRAD(canvas).replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1');
                     if(txt.length > 0) {
                         ctx.clearRect(0, 0, img.width, img.height);
-                        cb(x, y, txt);
+                        cb(x, y, parseInt(txt, 10));
                     }
                 }
             }

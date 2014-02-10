@@ -24,7 +24,7 @@ define([], function () {
         }
     };
 
-    Drauwr.prototype.write = function (val, x, y, fillStyle) {
+    Drauwr.prototype.write = function (x, y, val, fillStyle) {
         var ctx = this.canvas.getContext("2d"), w = this.canvas.width, h = this.canvas.height;
         ctx.font = "33px sans-serif";
         ctx.fillStyle = fillStyle || 'black';

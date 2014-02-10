@@ -19,10 +19,10 @@ define(['underscore'], function(_) {
                 val: function (newVal) {
                     if(newVal) {
                         if(!_.contains(possibleValues, newVal) ) {
-                            throw 'illegal value, not in possibleValues';
+                            throw 'illegal value, ' + newVal + ' not in possibleValues: ' + possibleValues;
                         }
                         if(_.contains(_.map(that.linkedCells(x, y), function(cell) {cell.val()}), newVal)) {
-                            throw 'illegal value, exists in linked cell'
+                            throw 'illegal value, '  + newVal + '  exists in a linked cell'
                         }
                         val = newVal;
                         possibleValues = [];

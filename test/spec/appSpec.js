@@ -43,6 +43,7 @@ define(['app', 'drauwr','board', 'imgman', 'jquery'], function(App, Drauwr, Boar
         });
 
         it('should initialize board from image and solve', function() {
+            spyOn(App.prototype, 'cb');
             spyOn(Drauwr.prototype, 'emptyBoard');
             spyOn(Board.prototype, 'reset');
             spyOn(ImgMan.prototype, 'read');
@@ -52,9 +53,11 @@ define(['app', 'drauwr','board', 'imgman', 'jquery'], function(App, Drauwr, Boar
             app.run(fileElMock);
             expect(Drauwr.prototype.emptyBoard).toHaveBeenCalled();
             expect(Board.prototype.reset).toHaveBeenCalled();
-            expect(ImgMan.prototype.read).toHaveBeenCalledWith(fileElMock.files[0], App.prototype.cb);
-            
-            // read image into board and draw values
+            expect(ImgMan.prototype.read).toHaveBeenCalled();
+            expect(ImgMan.prototype.read.calls[0].args[0]).toBe(fileElMock.files[0]);
+            expect(App.prototype.cb).not.toHaveBeenCalled();
+            ImgMan.prototype.read.calls[0].args[1]();
+            expect(App.prototype.cb).toHaveBeenCalled();
             // solve board
             // draw solved values in green
             

@@ -27,7 +27,7 @@ require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
       runs(function () {
         img.src = 'resources/9_at_4_4_black.png';
         draw.emptyBoard();
-        draw.write(9, 4, 4);
+        draw.write(4, 4, 9);
       });
       waitsFor(function () {
         return img.complete;
@@ -41,7 +41,7 @@ require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
       runs(function () {
         img.src = 'resources/1_at_2_3_red.png';
         draw.emptyBoard();
-        draw.write(1, 2, 3, 'red');
+        draw.write(2, 3, 1, 'red');
       });
       waitsFor(function () {
         return img.complete;
