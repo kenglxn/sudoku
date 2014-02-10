@@ -1,4 +1,4 @@
-define(['app', 'jquery', 'underscore'], function(App, $, _) {
+define(['app', 'drauwr','board', 'jquery', 'underscore'], function(App, Drauwr, Board, $, _) {
 
     describe('App', function() {
         var app, sandbox = $('#sandbox'), fileInput;
@@ -20,12 +20,16 @@ define(['app', 'jquery', 'underscore'], function(App, $, _) {
         });
 
         it('should run', function() {
-            // draw blank board
+            spyOn(Drauwr.prototype, 'emptyBoard');
+            
+            app.run();
+            expect(Drauwr.prototype.emptyBoard).toHaveBeenCalled();
             // create board
             // read image into board
             // draw read board values
             // solve board
             // draw solved values in green
+            
         });
     });
 

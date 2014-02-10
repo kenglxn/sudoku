@@ -99,6 +99,20 @@ define(['board'], function(Board) {
             expect(cells[80]).toBe(b.cell(8,8));
         });
 
+        it('should be able to reset matrix', function() {
+            var b = new Board();
+            spyOn(Board.prototype, 'matrix');
+            b.reset();
+
+            expect(Board.prototype.matrix).toHaveBeenCalledWith([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
+        });
+
+        it('should reset matrix on construction', function() {
+            spyOn(Board.prototype, 'reset');
+            new Board();
+            expect(Board.prototype.reset).toHaveBeenCalled();
+        });
+
     });
 
 });

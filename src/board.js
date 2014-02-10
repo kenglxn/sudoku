@@ -1,7 +1,11 @@
 define(['underscore'], function(_) {
 
     var Board = function() {
-        this.grid = this.matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
+        this.reset();
+    };
+
+    Board.prototype.reset = function() {
+        this.grid = this.matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);  
     };
     
     Board.prototype.newCell = function(x, y){

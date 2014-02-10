@@ -1,6 +1,6 @@
 require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
   describe('Drauwr', function() {
-    var draw, canvas = document.createElement('canvas');
+    var draw, canvas = document.createElement('canvas'), timeout = 2500;
     beforeEach(function () {
       this.addMatchers(imagediff.jasmine);
       draw = new Drauwr(canvas);
@@ -17,7 +17,7 @@ require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
       });
       waitsFor(function () {
         return img.complete;
-      }, 'image not loaded.', 2000);
+      }, 'image not loaded.', timeout);
       runs(function () {
         expect(canvas).toImageDiffEqual(img, 1); 
       });
@@ -31,7 +31,7 @@ require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
       });
       waitsFor(function () {
         return img.complete;
-      }, 'image not loaded.', 2000);
+      }, 'image not loaded.', timeout);
       runs(function () {
         expect(canvas).toImageDiffEqual(img, 1); 
       });
@@ -45,7 +45,7 @@ require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
       });
       waitsFor(function () {
         return img.complete;
-      }, 'image not loaded.', 2000);
+      }, 'image not loaded.', timeout);
       runs(function () {
         expect(canvas).toImageDiffEqual(img, 1); 
       });
