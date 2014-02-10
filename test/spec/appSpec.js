@@ -19,11 +19,13 @@ define(['app', 'drauwr','board', 'jquery', 'underscore'], function(App, Drauwr, 
             expect($.fn.change.calls[0].object.selector).toBe('#file');
         });
 
-        it('should run', function() {
+        it('should initialize board from image and solve', function() {
             spyOn(Drauwr.prototype, 'emptyBoard');
-            
+            spyOn(Board.prototype, 'reset');
+
             app.run();
             expect(Drauwr.prototype.emptyBoard).toHaveBeenCalled();
+            expect(Board.prototype.reset).toHaveBeenCalled();
             // create board
             // read image into board
             // draw read board values
