@@ -112,7 +112,6 @@ define(['board'], function(Board) {
             new Board();
             expect(Board.prototype.reset).toHaveBeenCalled();
         });
-
     });
 
 });

@@ -1,9 +1,10 @@
-define(['jquery', 'drauwr', 'board', 'imgman'], function($, Drauwr, Board, ImgMan) {
+define(['jquery', 'drauwr', 'board', 'imgman', 'solver'], function($, Drauwr, Board, ImgMan, Solver) {
 
     var App = function() {
         this.draw = new Drauwr(document.getElementById('canvas'));
         this.board = new Board();
         this.imgMan = new ImgMan();
+        this.solver = new Solver(this.board);
     };
 
     App.prototype.init = function() {
@@ -17,14 +18,18 @@ define(['jquery', 'drauwr', 'board', 'imgman'], function($, Drauwr, Board, ImgMa
         var app = this;
         app.draw.emptyBoard();
         app.board.reset();
-        app.imgMan.read(el.files[0], function(x,y,val) {
-            app.cb(x,y,val);
-        });
-    };
 
-    App.prototype.cb = function(x, y, val){
-        this.board.cell(x, y).val(val);
-        this.draw.write(x, y, val);
+        app.imgMan.read(el.files[0], 
+            function(x,y,val) {
+                app.board.cell(x, y).val(val);
+                app.draw.write(x, y, val);
+            },
+            function() {
+                app.solver.solve(function(x, y, txt) {
+                    app.draw.write(x, y, txt, 'green');
+                });
+            }
+        );
     };
 
     return App;

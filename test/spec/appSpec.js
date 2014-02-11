@@ -1,4 +1,4 @@
-define(['app', 'drauwr','board', 'imgman', 'jquery'], function(App, Drauwr, Board, ImgMan, $) {
+define(['app', 'drauwr','board', 'imgman', 'solver','jquery'], function(App, Drauwr, Board, ImgMan, Solver, $) {
 
     describe('App', function() {
         var app, sandbox = $('#sandbox'), fileInput, canvas;
@@ -29,24 +29,17 @@ define(['app', 'drauwr','board', 'imgman', 'jquery'], function(App, Drauwr, Boar
 
         });
 
-        it('should have callback that can be used to write values to board and draw them to canvas', function() {
-            var cellMock = {
-                val: jasmine.createSpy()
-            }, x = 1, y = 2, val = 3;
-            spyOn(Drauwr.prototype, 'write');
-            spyOn(Board.prototype, 'cell').andReturn(cellMock); 
-
-            app.cb(x, y, val);
-            expect(Board.prototype.cell).toHaveBeenCalledWith(x, y);
-            expect(cellMock.val).toHaveBeenCalledWith(val);
-            expect(Drauwr.prototype.write).toHaveBeenCalledWith(x, y, val);
-        });
-
-        it('should initialize board from image and solve', function() {
-            spyOn(App.prototype, 'cb');
-            spyOn(Drauwr.prototype, 'emptyBoard');
+        it('should solve board from image', function() {
             spyOn(Board.prototype, 'reset');
-            spyOn(ImgMan.prototype, 'read');
+            spyOn(Drauwr.prototype, 'emptyBoard');
+            spyOn(Drauwr.prototype, 'write');
+            spyOn(ImgMan.prototype, 'read').andCallFake(function(file, onRead, onFinish) {
+                onRead(1,2,3);
+                onFinish();
+            })
+            spyOn(Solver.prototype, 'solve').andCallFake(function(cb) {
+                cb();
+            });
             var fileElMock = {
                 files: ['foo']
             };
@@ -55,11 +48,8 @@ define(['app', 'drauwr','board', 'imgman', 'jquery'], function(App, Drauwr, Boar
             expect(Board.prototype.reset).toHaveBeenCalled();
             expect(ImgMan.prototype.read).toHaveBeenCalled();
             expect(ImgMan.prototype.read.calls[0].args[0]).toBe(fileElMock.files[0]);
-            expect(App.prototype.cb).not.toHaveBeenCalled();
-            ImgMan.prototype.read.calls[0].args[1]();
-            expect(App.prototype.cb).toHaveBeenCalled();
-            // solve board
-            // draw solved values in green
+            expect(Solver.prototype.solve).toHaveBeenCalled();
+            expect(Drauwr.prototype.write).toHaveBeenCalled();
             
         });
     });

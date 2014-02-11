@@ -5,7 +5,8 @@ define(['underscore'], function(_) {
     };
 
     Board.prototype.reset = function() {
-        this.grid = this.matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);  
+        this.grid = null;
+        this.grid = this.matrix([0,1,2,3,4,5,6,7,8], [0,1,2,3,4,5,6,7,8]);
     };
     
     Board.prototype.newCell = function(x, y){
@@ -13,21 +14,21 @@ define(['underscore'], function(_) {
         return (function (){
             var val = null;
             var possibleValues = [1,2,3,4,5,6,7,8,9];
-            return {
+            var cell ={
                 x: x,
                 y:y,
                 val: function (newVal) {
                     if(newVal) {
-                        if(!_.contains(possibleValues, newVal) ) {
-                            throw 'illegal value, ' + newVal + ' not in possibleValues: ' + possibleValues;
-                        }
-                        if(_.contains(_.map(that.linkedCells(x, y), function(cell) {cell.val()}), newVal)) {
-                            throw 'illegal value, '  + newVal + '  exists in a linked cell'
+                        if(!cell.applicable(newVal)) {
+                            throw 'value not applicable: ' + newVal;
                         }
                         val = newVal;
                         possibleValues = [];
                     }
                     return val;
+                },
+                applicable: function(newVal) {
+                    return _.contains(possibleValues, newVal) && !_.contains(_.map(that.linkedCells(x, y), function(cell) {return cell.val()}), newVal);
                 },
                 possibleValues: function(newValues) { 
                     if(newValues) {
@@ -36,6 +37,7 @@ define(['underscore'], function(_) {
                     return possibleValues; 
                 }
             };
+            return cell;
         }());
     };
 
@@ -91,13 +93,16 @@ define(['underscore'], function(_) {
     };
 
     Board.prototype.isValid = function() {
-        var that = this;
-        _.each(that.cells(), function (cell) {
-                var linkedCells = that.linkedCells(cell.x, cell.y);
-                var valueExistsInLinkedCell = _.contains(_.map(linkedCells, function(lc) {lc.val()}), cell.val());
-                if (valueExistsInLinkedCell) {
-                    return false;
-                }
+        var b = this, linkedCells, linkedCellValues;
+        _.each(b.cells(), function (cell) {
+            linkedCells = b.linkedCells(cell.x, cell.y);
+            linkedCellValues = _.map(linkedCells, function(lc) {
+                lc.val()
+            });
+            var valueExistsInLinkedCell = _.contains(linkedCellValues, cell.val());
+            if (valueExistsInLinkedCell) {
+                return false;
+            }
         });
         return true;
     };

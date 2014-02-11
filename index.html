@@ -6,34 +6,6 @@
     <script data-main="src/main.js" src="src/lib/require.js"></script>
   </head>
   <body>
-    <script>
-            function OCRImage(image){
-                    var canvas = document.createElement('canvas')
-                    canvas.width  = image.naturalWidth;
-                    canvas.height = image.naturalHeight;
-                    canvas.getContext('2d').drawImage(image, 0, 0)
-                    return OCRAD(canvas)
-            }
-            
-            function OCRPath(url, callback){
-                    var image = new Image()
-                    image.src = url;
-                    image.onload = function(){ callback(OCRImage(image)) }
-            }
-
-            function OCRFile(file, callback){
-                    var reader = new FileReader();
-                    reader.onload = function(){ OCRPath(reader.result, callback); }
-                    reader.readAsDataURL(file)
-            }
-
-            function YO() {
-                //YO(this.files[0])
-                console.log(arguments)
-                OCRFile(file, function(text){ console.log(text) })
-            }
-
-    </script>
     <input id="file" type="file" accept="image/*;capture=camera" style="width: 100%">
     <canvas id="canvas"></canvas>
   </body>

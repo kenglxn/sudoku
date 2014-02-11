@@ -17,7 +17,7 @@ define(['ocrad'], function(OCRAD) {
         }
     };
 
-    ImgMan.prototype.read = function (wat, cb) {
+    ImgMan.prototype.read = function (wat, onRead, onFinish) {
         var ctx,
              canvas,
              tiles = 9,
@@ -35,13 +35,14 @@ define(['ocrad'], function(OCRAD) {
                     var xOffset = x * tileWidth;
                     var yOffset = y * tileHeight;
                     ctx.drawImage(img, xOffset, yOffset, tileWidth, tileHeight, -(tileWidth / 9), -(tileHeight / 9), tileWidth, tileHeight);
-                    var txt = OCRAD(canvas).replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1');
+                    var txt = OCRAD(canvas).replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1').replace(/e/g, '8').replace(/s/g, '6');
                     if(txt.length > 0) {
                         ctx.clearRect(0, 0, img.width, img.height);
-                        cb(x, y, parseInt(txt, 10));
+                        onRead(x, y, parseInt(txt, 10));
                     }
                 }
             }
+            onFinish();
         });
     };
 

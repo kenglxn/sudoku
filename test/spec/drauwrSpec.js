@@ -1,6 +1,6 @@
 require(['drauwr', 'imagediff'], function (Drauwr, imagediff) {
   describe('Drauwr', function() {
-    var draw, canvas = document.createElement('canvas'), timeout = 5000;
+    var draw, canvas = document.createElement('canvas'), timeout = 2500;
     beforeEach(function () {
       this.addMatchers(imagediff.jasmine);
       draw = new Drauwr(canvas);

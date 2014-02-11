@@ -46,6 +46,7 @@ define(['solver', 'board'], function (Solver, Board) {
             expect(cb.callCount).toBe(55);
             _.each(cb.calls, function(call) {
                 expect(call.args.length).toBe(3);
+                expect(call.args[2]).toBeDefined();
             });
         });
     });

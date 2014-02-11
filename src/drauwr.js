@@ -7,6 +7,7 @@ define([], function () {
 
     Drauwr.prototype.emptyBoard = function () {
         var ctx = this.canvas.getContext("2d"), w = this.canvas.width, h = this.canvas.height;
+        ctx.clearRect(0, 0, w, h);
         for (var x = 0; x < 10; x++) {
             ctx.beginPath();
             ctx.lineWidth = x % 3 === 0 ? 3 : 1;
