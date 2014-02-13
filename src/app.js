@@ -9,16 +9,16 @@ define(['jquery', 'drauwr', 'board', 'imgman', 'solver'], function($, Drauwr, Bo
 
     App.prototype.init = function() {
         var app = this;
-        $('#file').change(function( ) {
+        $('#file').change(function() {
             app.run(this);
         });
     };
 
     App.prototype.run = function(el) {
         var app = this;
+        $('#cog').show();
         app.draw.emptyBoard();
         app.board.reset();
-
         app.imgMan.read(el.files[0], 
             function(x,y,val) {
                 app.board.cell(x, y).val(val);
@@ -27,6 +27,7 @@ define(['jquery', 'drauwr', 'board', 'imgman', 'solver'], function($, Drauwr, Bo
             function() {
                 app.solver.solve(function(x, y, txt) {
                     app.draw.write(x, y, txt, 'green');
+                    $('#cog').hide();
                 });
             }
         );
