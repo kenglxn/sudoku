@@ -57,6 +57,23 @@ define(['imgman'], function (ImgMan) {
             }); 
         });
 
+        it('should call crop from load callback in read', function () {
+            var img = 'img', 
+                  onRead = 'onRead',
+                  cropped = 'cropped',
+                  onFinish = 'onFinish',
+                  imgMan = new ImgMan();
+            spyOn(imgMan, 'readDigitsFromImage');
+            spyOn(imgMan, 'load').andCallFake(function (wat, cb) { cb(img); });
+            spyOn(imgMan, 'crop').andCallFake(function() { return cropped });
+
+            imgMan.read(null, onRead, onFinish);
+
+            expect(imgMan.load).toHaveBeenCalled();
+            expect(imgMan.crop).toHaveBeenCalledWith(img);
+            expect(imgMan.readDigitsFromImage).toHaveBeenCalledWith(cropped, onRead, onFinish);
+        });
+
         it("should get cell values from image", function () {
             this.addMatchers({
                 argsToBe: function(x, y, val) {

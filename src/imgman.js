@@ -6,7 +6,9 @@ define(['ocrad'], function(OCRAD) {
         var imgman = this;
         if(wat.constructor == File) {
             var reader = new FileReader();
-            reader.onload = function(){ imgman.load(reader.result, cb); }
+            reader.onload = function(){
+                imgman.load(reader.result, cb); 
+            }
             reader.readAsDataURL(wat)   
         } else {
             var img = document.createElement('img');
@@ -18,13 +20,21 @@ define(['ocrad'], function(OCRAD) {
     };
 
     ImgMan.prototype.read = function (wat, onRead, onFinish) {
+        var imgman = this;
+        imgman.load(wat, function(img) {
+            croppedImg = imgman.crop(img);
+            imgman.readDigitsFromImage(croppedImg, onRead, onFinish);
+        });
+    };
+
+    ImgMan.prototype.readDigitsFromImage = function(img, onRead, onFinish) {
         var ctx,
              canvas,
              tiles = 9,
              tileWidth,
-             tileHeight;
-        this.load(wat, function(img) {
-            canvas = document.createElement('canvas');
+             tileHeight,
+             croppedImg;
+        canvas = document.createElement('canvas');
             ctx = canvas.getContext('2d');
             tileWidth = img.width / tiles;
             tileHeight = img.height / tiles;
@@ -43,7 +53,10 @@ define(['ocrad'], function(OCRAD) {
                 }
             }
             onFinish();
-        });
+    };
+
+    ImgMan.prototype.crop = function (img) {
+        return img;
     };
 
     return ImgMan;
