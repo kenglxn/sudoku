@@ -74,6 +74,52 @@ define(['imgman'], function (ImgMan) {
             expect(imgMan.readDigitsFromImage).toHaveBeenCalledWith(cropped, onRead, onFinish);
         });
 
+        it('should crop image', function () {
+            var img, 
+                  cropped,
+                  cb = jasmine.createSpy()
+                  imgMan = new ImgMan();
+            runs(function(){
+                imgMan.load('resources/sample.png', cb);
+            });
+            waitsFor(function() {
+                return cb.callCount == 1;
+            });
+            runs(function(){
+                img = cb.calls[0].args[0];
+                cropped = imgMan.crop(img);
+                expect(img instanceof HTMLImageElement).toBeTruthy();
+                expect(cropped instanceof HTMLImageElement).toBeTruthy();
+                expect(cropped.width).toBeLessThan(img.width);
+                expect(cropped.width).toBe(603);
+                expect(cropped.height).toBeLessThan(img.height);
+                expect(cropped.height).toBe(597);
+            });
+        });
+
+        it('should crop cam image', function () {
+            var img, 
+                  cropped,
+                  cb = jasmine.createSpy()
+                  imgMan = new ImgMan();
+            runs(function(){
+                imgMan.load('resources/cam_sample.jpg', cb);
+            });
+            waitsFor(function() {
+                return cb.callCount == 1;
+            });
+            runs(function(){
+                img = cb.calls[0].args[0];
+                cropped = imgMan.crop(img);
+                expect(img instanceof HTMLImageElement).toBeTruthy();
+                expect(cropped instanceof HTMLImageElement).toBeTruthy();
+                expect(cropped.width).toBeLessThan(img.width);
+                expect(cropped.width).toBe(917);
+                expect(cropped.height).toBeLessThan(img.height);
+                expect(cropped.height).toBe(904);
+            });
+        });
+
         it("should get cell values from image", function () {
             this.addMatchers({
                 argsToBe: function(x, y, val) {
