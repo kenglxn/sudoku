@@ -43,8 +43,9 @@ define(['ocrad'], function(OCRAD) {
             for(var y = 0; y < tiles; y++) {
                 var xOffset = x * tileWidth;
                 var yOffset = y * tileHeight;
-                ctx.drawImage(img, xOffset, yOffset, tileWidth, tileHeight, -(tileWidth / 9), -(tileHeight / 9), tileWidth, tileHeight);
-                var txt = OCRAD(canvas).replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1').replace(/e/g, '8').replace(/s/g, '6');
+                ctx.drawImage(img, xOffset, yOffset, tileWidth, tileHeight, -(tileWidth / 10), -(tileHeight / 10), tileWidth, tileHeight);
+                var ocrTxt = OCRAD(canvas);
+                var txt = ocrTxt.replace(/í/g, '1').replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1').replace(/e/g, '8').replace(/s/g, '6');
                 ctx.clearRect(0, 0, img.width, img.height);
                 if(txt.length > 0) {
                     onRead(x, y, parseInt(txt, 10));
@@ -57,12 +58,13 @@ define(['ocrad'], function(OCRAD) {
     ImgMan.prototype.crop = function (img) {
         //TODO clean up this mess
         var canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
+        var resize = img.width > 777 ? .5 : 1; 
+        canvas.width = img.width * resize;
+        canvas.height = img.height * resize;
         var croppedImg = document.createElement('img');
         var croppedCanvas = document.createElement('canvas');
         var context = canvas.getContext("2d");
-        context.drawImage(img, 0, 0);
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
         var imageData = context.getImageData(0, 0, img.width, img.height);
         var data = imageData.data;
         var getRBG = function(x, y) {
@@ -79,8 +81,8 @@ define(['ocrad'], function(OCRAD) {
         };
         var scanY = function (fromTop) {
             var offset = fromTop ? 1 : -1;
-            for(var y = fromTop ? 0 : img.height - 1; fromTop ? (y < img.height) : (y > -1); y += offset) {
-                for(var x = 0; x < img.width; x++) {
+            for(var y = fromTop ? 0 : canvas.height - 1; fromTop ? (y < canvas.height) : (y > -1); y += offset) {
+                for(var x = 0; x < canvas.width; x++) {
                     var rgb = getRBG(x, y);
                     if (!isOutside(rgb)) {
                         return y;                        
@@ -91,8 +93,8 @@ define(['ocrad'], function(OCRAD) {
         };
         var scanX = function (fromLeft) {
             var offset = fromLeft? 1 : -1;
-            for(var x = fromLeft ? 0 : img.width - 1; fromLeft ? (x < img.width) : (x > -1); x += offset) {
-                for(var y = 0; y < img.height; y++) {
+            for(var x = fromLeft ? 0 : canvas.width - 1; fromLeft ? (x < canvas.width) : (x > -1); x += offset) {
+                for(var y = 0; y < canvas.height; y++) {
                     var rgb = getRBG(x, y);
                     if (!isOutside(rgb)) {
                         return x;                        
@@ -111,8 +113,7 @@ define(['ocrad'], function(OCRAD) {
     
         croppedCanvas.width = cropWidth;
         croppedCanvas.height = cropHeight;
-    
-        croppedCanvas.getContext("2d").drawImage(canvas, cropLeft, cropTop, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+        croppedCanvas.getContext("2d").drawImage(canvas, cropLeft , cropTop , cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
         croppedImg.src = croppedCanvas.toDataURL();
         return croppedImg;
     };
