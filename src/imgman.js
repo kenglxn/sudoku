@@ -31,6 +31,12 @@ define(['ocrad'], function(OCRAD) {
         var ctx,
              canvas,
              tiles = 9,
+             x = 0,
+             y = 0,
+             ocrTxt,
+             txt,
+             xOffset,
+             yOffset,
              tileWidth,
              tileHeight;
         canvas = document.createElement('canvas');
@@ -39,14 +45,13 @@ define(['ocrad'], function(OCRAD) {
         tileHeight = img.height / tiles;
         canvas.width = tileWidth;
         canvas.height = tileHeight;
-        for(var x = 0; x < tiles; x++) {
-            for(var y = 0; y < tiles; y++) {
-                var xOffset = x * tileWidth;
-                var yOffset = y * tileHeight;
-                ctx.drawImage(img, xOffset, yOffset, tileWidth -(tileWidth / tiles), tileHeight -(tileHeight / tiles), -(tileWidth / 7), -(tileHeight / 7), tileWidth, tileHeight);
-                var ocrTxt = OCRAD(canvas);
-                var txt = ocrTxt.replace(/í/g, '1').replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1').replace(/e/g, '8').replace(/s/g, '6');
-                ctx.clearRect(0, 0, img.width, img.height);
+        for(x = 0; x < tiles; x++) {
+            for(y = 0; y < tiles; y++) {
+                xOffset = x * tileWidth;
+                yOffset = y * tileHeight;
+                ctx.drawImage(img, xOffset, yOffset, tileWidth -(tileWidth / tiles), tileHeight -(tileHeight / tiles), -(tileWidth / tiles), -(tileHeight / tiles), tileWidth, tileHeight);
+                ocrTxt = OCRAD(canvas);
+                txt = ocrTxt.replace(/[íl]/g, '1').replace(/e/g, '8').replace(/s/g, '6').replace(/[Iuo_\W]/g,'');
                 if(txt.length === 1 && !isNaN(txt)) {
                     onRead(x, y, parseInt(txt, 10));
                 }
@@ -58,7 +63,7 @@ define(['ocrad'], function(OCRAD) {
     ImgMan.prototype.crop = function (img) {
         //TODO clean up this mess
         var canvas = document.createElement('canvas');
-        var resize = img.width > 777 ? .5 : 1; 
+        var resize = img.width > 800 ? .5 : 1; 
         canvas.width = img.width * resize;
         canvas.height = img.height * resize;
         var croppedImg = document.createElement('img');

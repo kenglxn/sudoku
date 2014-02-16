@@ -1,8 +1,8 @@
 define([], function () {
     var Drauwr = function(canvas) {
         this.canvas = canvas;
-        this.canvas.height = 400;
-        this.canvas.width = 400;
+        this.canvas.height = 300;
+        this.canvas.width = 300;
     };
 
     Drauwr.prototype.emptyBoard = function () {
@@ -27,7 +27,7 @@ define([], function () {
 
     Drauwr.prototype.write = function (x, y, val, fillStyle) {
         var ctx = this.canvas.getContext("2d"), w = this.canvas.width, h = this.canvas.height;
-        ctx.font = "33px sans-serif";
+        ctx.font = "22px sans-serif";
         ctx.fillStyle = fillStyle || 'black';
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
