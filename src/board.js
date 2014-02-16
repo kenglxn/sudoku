@@ -66,8 +66,8 @@ define(['underscore'], function(_) {
     };
 
     Board.prototype.xSiblings = function(x, y) {
-        var xSibs = [];
-        for(var i = 0; i < 9; i++) {
+        var i, xSibs = [];
+        for(i = 0; i < 9; i++) {
             xSibs.push(this.grid[i][y]);   
         }
         return _.without(xSibs, this.cell(x, y));

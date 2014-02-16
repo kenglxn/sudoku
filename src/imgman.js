@@ -85,11 +85,10 @@ define(['ocrad'], function(OCRAD) {
             return rgb.red > 40 && rgb.green > 40 && rgb.blue > 40;
         };
         var scanY = function (fromTop) {
-            var offset = fromTop ? 1 : -1;
-            for(var y = fromTop ? 0 : canvas.height - 1; fromTop ? (y < canvas.height) : (y > -1); y += offset) {
-                for(var x = 0; x < canvas.width; x++) {
-                    var rgb = getRBG(x, y);
-                    if (!isOutside(rgb)) {
+            var x, y, offset = fromTop ? 1 : -1;
+            for(y = fromTop ? 0 : canvas.height - 1; fromTop ? (y < canvas.height) : (y > -1); y += offset) {
+                for(x = 0; x < canvas.width; x++) {
+                    if (!isOutside(getRBG(x, y))) {
                         return y;                        
                     }      
                 }
@@ -97,11 +96,10 @@ define(['ocrad'], function(OCRAD) {
             return null; 
         };
         var scanX = function (fromLeft) {
-            var offset = fromLeft? 1 : -1;
-            for(var x = fromLeft ? 0 : canvas.width - 1; fromLeft ? (x < canvas.width) : (x > -1); x += offset) {
-                for(var y = 0; y < canvas.height; y++) {
-                    var rgb = getRBG(x, y);
-                    if (!isOutside(rgb)) {
+            var x, y, offset = fromLeft? 1 : -1;
+            for(x = fromLeft ? 0 : canvas.width - 1; fromLeft ? (x < canvas.width) : (x > -1); x += offset) {
+                for(y = 0; y < canvas.height; y++) {
+                    if (!isOutside(getRBG(x, y))) {
                         return x;                        
                     }      
                 }
