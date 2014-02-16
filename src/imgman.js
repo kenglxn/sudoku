@@ -43,11 +43,11 @@ define(['ocrad'], function(OCRAD) {
             for(var y = 0; y < tiles; y++) {
                 var xOffset = x * tileWidth;
                 var yOffset = y * tileHeight;
-                ctx.drawImage(img, xOffset, yOffset, tileWidth, tileHeight, -(tileWidth / 10), -(tileHeight / 10), tileWidth, tileHeight);
+                ctx.drawImage(img, xOffset, yOffset, tileWidth -(tileWidth / tiles), tileHeight -(tileHeight / tiles), -(tileWidth / 7), -(tileHeight / 7), tileWidth, tileHeight);
                 var ocrTxt = OCRAD(canvas);
                 var txt = ocrTxt.replace(/í/g, '1').replace(/\W/g,'').replace(/[Iuo_]/g, '').replace(/l/g, '1').replace(/e/g, '8').replace(/s/g, '6');
                 ctx.clearRect(0, 0, img.width, img.height);
-                if(txt.length > 0) {
+                if(txt.length === 1 && !isNaN(txt)) {
                     onRead(x, y, parseInt(txt, 10));
                 }
             }
