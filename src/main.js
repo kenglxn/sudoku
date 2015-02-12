@@ -1,6 +1,6 @@
 requirejs.config({
     baseUrl: "src/",
-    urlArgs: 'cb=' + Math.random(),
+    // urlArgs: 'cb=' + Math.random(),
     paths: {
         jquery: "lib/jquery",
         underscore: "lib/underscore",
